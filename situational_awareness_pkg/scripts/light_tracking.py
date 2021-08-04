@@ -42,7 +42,7 @@ def get_result(img):
     # Do necessary preprocessing on 'img' parameter to feed into model
     try:
         # Convert ROS Image class to OpenCV2 image
-        cv2_img = bridge.imgmsg_to_cv2(img, desired_encoding="passthrough")
+        cv2_img = bridge.imgmsg_to_cv2(img, desired_encoding="bgr8")
         # Convert OpenCV2 image (numpy ndarray) to cudaImage
         cuda_mem = jetson.utils.cudaFromNumpy(cv2_img)
     except CvBridgeError as e:
