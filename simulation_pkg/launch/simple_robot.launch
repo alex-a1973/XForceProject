@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <!-- Define arguments -->
+    <arg name="world"               default="$(find simulation_pkg)/worlds/simple_robot.world"/>
+    <arg name="paused"              default="false"/>
+    <arg name="use_sim_time"        default="true"/>
+    <arg name="gui"                 default="true"/>
+    <arg name="headless"            default="false"/>
+    <arg name="debug"               default="false"/>
+    <arg name="model"               default="$(find simulation_pkg)/models/simple_robot/simple_robot.urdf.xacro"/>
+
+    <!-- Load the world environment -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name"          value="$(arg world)"/>
+        <arg name="paused"              value="$(arg paused)"/>
+        <arg name="use_sim_time"        value="$(arg use_sim_time)"/>
+        <arg name="gui"                 value="$(arg gui)"/>
+        <arg name="headless"            value="$(arg headless)"/>
+        <arg name="debug"               value="$(arg debug)"/>
+    </include>
+
+    <!-- Build the URDF files from the .xacro files -->
+    <param name="simple_robot_description" command="$(find xacro)/xacro $(arg model)"/>
+    
+    <!-- Spawn 'simple_robot_description' in Gazebo -->
+    <node name="simple_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+        args="-urdf -param simple_robot_description -model simple_robot"/>
+
+    <!-- Publish the TFs (transformations) -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <remap from="robot_description" to="simple_robot_description"/>
+    </node>
+</launch>

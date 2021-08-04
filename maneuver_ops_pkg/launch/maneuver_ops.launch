@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node
+        pkg="maneuver_ops_pkg"
+        name="maneuver_ops"
+        type="maneuver_ops.py"
+        output="screen"
+    />
+</launch>

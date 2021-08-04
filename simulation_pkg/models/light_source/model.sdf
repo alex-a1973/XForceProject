@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<sdf version="1.5">
+    <model name="light_source">
+        <pose>5 0 0 0 0 0</pose>
+        <static>true</static>
+        <link name="link">
+            <inertial>
+                <mass>1.0</mass>
+                <inertia>ixx="0.4" ixy="0" ixz="0" iyy="0.4" iyz="0" izz="0.4"</inertia>
+            </inertial>
+            <collision name="collision">
+                <geometry>
+                    <sphere>
+                        <radius>0.3</radius>
+                    </sphere>
+                </geometry>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <sphere>
+                        <radius>0.3</radius>
+                    </sphere>
+                </geometry>
+                <material>
+                    <script>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                        <name>Gazebo/Blue</name>
+                    </script>
+                </material>
+            </visual>
+        </link>
+    </model>
+</sdf>

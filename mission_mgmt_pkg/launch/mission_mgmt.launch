@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node
+        pkg="mission_mgmt_pkg"
+        name="mission_mgmt"
+        type="mission_mgmt.py"
+        output="screen"
+    />
+</launch>

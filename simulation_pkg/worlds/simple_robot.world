@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<sdf version="1.5">
+    <world name="simple_robot_world">
+        <!-- Add a ground plane -->
+        <include>
+            <uri>model://ground_plane</uri>
+        </include>
+        <!-- Global light source -->
+        <include>
+            <uri>model://sun</uri>
+        </include>
+        <!-- Customize "light source" -->
+        <include>
+            <uri>model://light_source</uri>
+        </include>
+        <!-- Set up solver used for simulation -->
+        <!-- <physics name="ode70iters" type="ode">
+            <real_time_update_rate>15000</real_time_update_rate>
+            <ode>
+                <solver>
+                    <type>quick</type>
+                    <iters>70</iters>
+                </solver>
+            </ode>
+        </physics> -->
+    </world>
+</sdf>

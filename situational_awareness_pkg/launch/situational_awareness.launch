@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node
+        pkg="situational_awareness_pkg"
+        name="situational_awareness"
+        type="situational_awareness.py"
+        output="screen"
+    />
+</launch>

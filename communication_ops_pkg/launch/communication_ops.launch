@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node
+        pkg="communication_ops_pkg"
+        name="communication_ops"
+        type="communication_ops.py"
+        output="screen"
+    />
+</launch>

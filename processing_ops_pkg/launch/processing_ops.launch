@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node
+        pkg="processing_ops_pkg"
+        name="processing_ops"
+        type="processing_ops.py"
+        output="screen"
+    />
+</launch>

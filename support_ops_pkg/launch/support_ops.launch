@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node
+        pkg="support_ops_pkg"
+        name="support_ops"
+        type="support_ops.py"
+        output="screen"
+    />
+</launch>

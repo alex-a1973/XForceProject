@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node
+        pkg="sensor_effector_mgmt_pkg"
+        name="sensor_effector_mgmt"
+        type="sensor_effector_mgmt.py"
+        output="screen"
+    />
+</launch>

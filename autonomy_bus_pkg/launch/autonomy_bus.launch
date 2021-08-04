@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node
+        pkg="autonomy_bus_pkg"
+        name="autonomy_bus"
+        type="autonomy_bus.py"
+        output="screen"
+    />
+</launch>
