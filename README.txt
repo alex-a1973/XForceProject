@@ -212,3 +212,10 @@ Krill UUV ROS Packages
 
 Hardware Branch
 ---------------
+
+Serial
+
+- This folder contains the necessary contents for establishing a serial connection between the Jetson and Arduino
+- Must be kept in the same directory as ADetection_xy.py
+
+
