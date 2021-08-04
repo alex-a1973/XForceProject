@@ -187,19 +187,19 @@ Krill UUV ROS Packages
             - Create a folder (this will be your '<ros_workspace_folder>') with a 'src/' folder within it
             - 'cd' into the newly created folder
             - Call 'catkin_make' then you've just created a ROS workspace
-        2. 'git clone' repository in your 'src/' folder after you've created your ROS workspace
+        2. 'git clone' the 'simulation' branch of the repository in your 'src/' folder after you've created your ROS workspace
             - A 'src/' folder should be created after you 'catkin_make'
-            - 'cd <ros_workspace_folder>/src/'
-            - 'git clone https://github.com/alex-a1973/UUVLightTrackingSrc.git'
-        3. Now you have '~/<ros_workspace_folder>/src/UUVLightTrackingSrc/' which contains all the custom packages.
-        4. You MUST make sure in '~/<ros_workspace_folder>/src/UUVLightTrackingSrc/autonomy_bus_pkg/CMakeLists.txt', under
+            - 'cd ./<ros_workspace_folder>/src/'
+            - 'git clone --single-branch --branch simulation https://github.com/alex-a1973/XForceProject.git'
+        3. Now you have './<ros_workspace_folder>/src/XForceProject/' which contains all the custom packages.
+        4. You MUST make sure in './<ros_workspace_folder>/src/XForceProject/autonomy_bus_pkg/CMakeLists.txt', under
                 'generate_messages' all but 'std_msgs' and 'sensor_msgs' are commented out (i.e., all custom packages)
-        5. You MUST make sure in '~/<ros_workspace_folder>/src/UUVLightTrackingSrc/autonomy_bus_pkg/msg/AutonomyBus.msg' all
+        5. You MUST make sure in './<ros_workspace_folder>/src/XForceProject/autonomy_bus_pkg/msg/AutonomyBus.msg' all
                 custom packages are commented out
         6. Once the appropriate stuff is commented out, 'cd ~/<ros_workspace_folder>' and 'catkin_make' (compile ROS workspace)
         7. After successful compilation, uncomment all the commented out sections from steps 4 and 5
         8. Open terminals (or terminal tabs) equal to the number of packages w/in this workspace (10)
-        9. 'cd ~/krill_ws', Change directory into the 'krill_ws/' folder for all terminals
+        9. 'cd ./<ros_workspace_folder>', Change directory into the '<ros_workspace_folder>/' folder for all terminals
         10. 'source devel/setup.bash', Source the project for all terminals
         11. There should be a 'launch/' folder in every single one of these packages. You'll need to run each '.launch' file
                 in each package in a separate terminal (hence the reason opening 10 terminals)
