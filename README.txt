@@ -200,7 +200,8 @@ Krill UUV ROS Packages
         5. You MUST make sure in './<ros_workspace_folder>/src/XForceProject/autonomy_bus_pkg/msg/AutonomyBus.msg' all
                 custom packages are commented out (such as 'communication_ops_pkg' and 'engineering_ops_pkg')
         6. Once the appropriate stuff is commented out, 'cd ./<ros_workspace_folder>' and 'catkin_make' (compile ROS workspace)
-        7. After successful compilation, uncomment all the commented out sections from steps 4 and 5
+        7. After successful compilation, uncomment all the commented out sections from steps 4 and 5, save, and compile again with
+                'catkin_make' within './<ros_workspace_folder>/' folder
         8. Open terminals (or terminal tabs) equal to the number of packages w/in this workspace (10)
         9. 'cd ./<ros_workspace_folder>', Change directory into the '<ros_workspace_folder>/' folder for all terminals
         10. 'source devel/setup.bash', Source the project for all terminals
