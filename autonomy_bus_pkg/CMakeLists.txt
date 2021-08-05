@@ -77,14 +77,14 @@ generate_messages(
   std_msgs
   sensor_msgs
   vision_msgs
-  communication_ops_pkg
-  engineering_ops_pkg
-  maneuver_ops_pkg
-  mission_mgmt_pkg
-  processing_ops_pkg
-  sensor_effector_mgmt_pkg
-  situational_awareness_pkg
-  support_ops_pkg
+  #communication_ops_pkg
+  #engineering_ops_pkg
+  #maneuver_ops_pkg
+  #mission_mgmt_pkg
+  #processing_ops_pkg
+  #sensor_effector_mgmt_pkg
+  #situational_awareness_pkg
+  #support_ops_pkg
 )
 
 ################################################

@@ -2,11 +2,11 @@
 std_msgs/Header header
 # Below is the data received from each individual package
 # Please refer to README.txt for when to uncomment the below
-communication_ops_pkg/CommunicationOperations communication_ops
-engineering_ops_pkg/EngineeringOperations engineering_ops
-maneuver_ops_pkg/ManeuverOperations maneuver_ops
-mission_mgmt_pkg/MissionManagement mission_mgmt
-processing_ops_pkg/ProcessingOperations processing_ops
-sensor_effector_mgmt_pkg/SensorEffectorManagement sensor_effector_mgmt
-situational_awareness_pkg/SituationalAwareness situational_awareness
-support_ops_pkg/SupportOperations support_ops
+#communication_ops_pkg/CommunicationOperations communication_ops
+#engineering_ops_pkg/EngineeringOperations engineering_ops
+#maneuver_ops_pkg/ManeuverOperations maneuver_ops
+#mission_mgmt_pkg/MissionManagement mission_mgmt
+#processing_ops_pkg/ProcessingOperations processing_ops
+#sensor_effector_mgmt_pkg/SensorEffectorManagement sensor_effector_mgmt
+#situational_awareness_pkg/SituationalAwareness situational_awareness
+#support_ops_pkg/SupportOperations support_ops
