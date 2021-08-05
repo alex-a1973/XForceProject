@@ -72,7 +72,7 @@ class MissionMgmt:
             Publishes incoming messages from 'autonomy_bus_pkg' in a uniform format.
         """
         # Initialize the rate at which messages
-        rate = rospy.Rate(1)
+        rate = rospy.Rate(0.5)
         while not rospy.is_shutdown():
             # Store 'MissionManagementMsg' in 'data'
             self.data['mission_mgmt'] = self._MISSION_MGMT_MSG
@@ -84,7 +84,7 @@ class MissionMgmt:
             self.pub_data.publish(self._MISSION_MGMT_MSG)
             # Publish "logger_msg" to "mission_mgmt_logger_out" topic
             #self.pub_logger.publish(logger_msg)
-            # Sleep for 1 second
+            # Sleep for 2 second
             rate.sleep()
         print('"mission_mgmt" node has gone offline.')
             

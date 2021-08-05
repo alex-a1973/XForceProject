@@ -80,7 +80,7 @@ class AutonomyBus:
             uniform format.
         """
         # Initialize the rate at which messages
-        rate = rospy.Rate(1)
+        rate = rospy.Rate(0.5)
         while not rospy.is_shutdown():
             # Store 'AutonomyBusMsg' in 'data'
             self.data['autonomy_bus'] = self._AUTONOMY_BUS_MSG
@@ -94,7 +94,7 @@ class AutonomyBus:
             self.pub_data.publish(self._AUTONOMY_BUS_MSG)
             # Publish "logger_msg" to "autonomy_bus_out_logger" topic
             #self.pub_logger.publish(logger_msg)
-            # Sleep for 1 second
+            # Sleep for 2 second
             rate.sleep()
             
     def _listen_data(self):

@@ -69,7 +69,7 @@ class ManeuverOperations:
             Publishes incoming messages from 'autonomy_bus_pkg' in a uniform format.
         """
         # Initialize the rate at which messages
-        rate = rospy.Rate(1)
+        rate = rospy.Rate(0.5)
         while not rospy.is_shutdown():
             # Store 'ManeuverOperationsMsg' in 'data'
             self.data['maneuver_ops'] = self._MANEUVER_OPS_MSG
@@ -81,7 +81,7 @@ class ManeuverOperations:
             #self.pub_data.publish(_)
             # Publish "logger_msg" to "maneuver_ops_logger_out" topic
             self.pub_logger.publish(logger_msg)
-            # Sleep for 1 second
+            # Sleep for 2 second
             rate.sleep()
         print('"maneuver_ops" node has gone offline.')
             

@@ -150,7 +150,10 @@ Krill UUV ROS Packages
             |       |__ situational_awareness.launch --> File launches the 'situational_awareness.py' file which initializes a ROS node
             |    
             |__ models/ --> Where custom models reside for 'situational_awareness_pkg'
-            |       |__  --> This model is trained on a specific object to track within Gazebo
+            |       |__ light_tracking_model/ --> Model folder for the light tracking detection model
+            |               |__ ssd-mobilenet.onnx --> Exported custom light tracking detection model
+            |               |__ ssd-mobilenet.onnx.1.1.7103.GPU.FP16.engine --> Exported custom light tracking detection model after initial load
+            |               |__ labels.txt --> Text file specifying the labels the custom model was train with
             |
             |__ msg/ --> Where custom message types reside for 'situational_awareness_pkg'
             |       |__ SituationalAwareness.msg --> This message is comprised of the data that this package should broadcast

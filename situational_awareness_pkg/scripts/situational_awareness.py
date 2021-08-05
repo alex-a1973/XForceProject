@@ -74,7 +74,7 @@ class SituationalAwareness:
             Publishes incoming messages from 'autonomy_bus_pkg' in a uniform format.
         """
         # Initialize the rate at which messages
-        rate = rospy.Rate(1)
+        rate = rospy.Rate(0.5)
         while not rospy.is_shutdown():
             # Store 'SituationalAwarenessMsg' in 'data'
             self.data['situational_awareness'] = self._SITUATIONAL_AWARENESS_MSG
@@ -86,7 +86,7 @@ class SituationalAwareness:
             self.pub_data.publish(self._SITUATIONAL_AWARENESS_MSG)
             # Publish "logger_msg" to "support_ops_logger_out" topic
             #self.pub_logger.publish(logger_msg)
-            # Sleep for 1 second
+            # Sleep for 2 second
             rate.sleep()
         print('"situational_awareness" node has gone offline.')
             

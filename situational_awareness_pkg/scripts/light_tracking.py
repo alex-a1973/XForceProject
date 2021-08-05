@@ -2,6 +2,7 @@
 
 import cv2
 import numpy as np
+import jetson.inference
 import jetson.utils
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
@@ -38,7 +39,14 @@ def get_result(img):
     # Initialize CvBridge class
     bridge = CvBridge()
     # TODO: Import exported custom object detection model
-    # model = import(custom_model)
+    args = [
+        '--model=../models/light_tracking_model/ssd-mobilenet.onnx',
+        '--labels=../models/light_tracking_model/labels.txt',
+        '--input-blob=input_0',
+        '--output-cvg=scores',
+        '--output-bbox=boxes'
+    ]
+    model = jetson.inference.detectNet(argv=args, threshold=0.5)
     # Do necessary preprocessing on 'img' parameter to feed into model
     try:
         # Convert ROS Image class to OpenCV2 image
@@ -52,7 +60,7 @@ def get_result(img):
     # Display the image
     show_image(drawImg)
     # TODO: Produce results by passing processed image into the model
-    # detections = model(cuda_mem, img.width, img.height)
+    # detections = model.detect(cuda_mem, img.width, img.height)
     # TODO: Parse results from predictions/detections
     # if (len(detections) > 0):
         # data = {}

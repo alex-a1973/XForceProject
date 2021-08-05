@@ -70,7 +70,7 @@ class ProcessingOperations:
             Publishes incoming messages from 'autonomy_bus_pkg' in a uniform format.
         """
         # Initialize the rate at which messages
-        rate = rospy.Rate(1)
+        rate = rospy.Rate(0.5)
         while not rospy.is_shutdown():
             # Store 'ProcessingOperationsMsg' in 'data'
             self.data['processing_ops'] = self._PROCESSING_OPS_MSG
@@ -82,7 +82,7 @@ class ProcessingOperations:
             #self.pub_data.publish(_)
             # Publish "logger_msg" to "processing_ops_logger_out" topic
             self.pub_logger.publish(logger_msg)
-            # Sleep for 1 second
+            # Sleep for 2 second
             rate.sleep()
         print('"processing_ops" node has gone offline.')
             

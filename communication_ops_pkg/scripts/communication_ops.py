@@ -75,7 +75,7 @@ class CommunicationOperations:
             Publishes incoming messages from 'autonomy_bus_pkg' in a uniform format.
         """
         # Initialize the rate at which messages
-        rate = rospy.Rate(1)
+        rate = rospy.Rate(0.5)
         while not rospy.is_shutdown():
             # Store 'CommunicationOperationsMsg' in 'data'
             self.data['communication_ops'] = self._COMMUNICATION_OPS_MSG
@@ -87,7 +87,7 @@ class CommunicationOperations:
             self.pub_data.publish(self._COMMUNICATION_OPS_MSG)
             # Publish "logger_msg" to "communication_ops_logger_out" topic
             self.pub_logger.publish(logger_msg)
-            # Sleep for 1 second
+            # Sleep for 2 second
             rate.sleep()
         print('"communication_ops" node has gone offline.')
             

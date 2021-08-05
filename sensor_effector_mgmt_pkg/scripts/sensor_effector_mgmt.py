@@ -67,7 +67,7 @@ class SensorEffectorMgmt:
             Publishes incoming messages from 'autonomy_bus_pkg' in a uniform format.
         """
         # Initialize the rate at which messages
-        rate = rospy.Rate(1)
+        rate = rospy.Rate(0.5)
         while not rospy.is_shutdown():
             # Store 'SensorEffectorManagementMsg' in 'data'
             self.data['sensor_effector_mgmt'] = self._SENSOR_EFFECTOR_MGMT_MSG
@@ -79,7 +79,7 @@ class SensorEffectorMgmt:
             #self.pub_data.publish(_)
             # Publish "logger_msg" to "sensor_effector_mgmt_logger_out" topic
             self.pub_logger.publish(logger_msg)
-            # Sleep for 1 second
+            # Sleep for 2 second
             rate.sleep()
         print('"sensor_effector_mgmt" node has gone offline.')
             
