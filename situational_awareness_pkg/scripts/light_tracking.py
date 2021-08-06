@@ -18,7 +18,7 @@ def show_image(img):
     cv2.imshow('image', img)
     cv2.waitKey(1)
 
-def get_result(img):
+def get_result(img, model):
     """
         Given an image from 'situation_awareness' ROS node report back results such as
         bounding box coordinates of a given light source w/in Gazebo
@@ -27,6 +27,12 @@ def get_result(img):
         +--------------------+
         img: 'Image' message type that was forwarded from 'situational_awareness' node for
                 processing
+        model: A custom object detection model based on an object (light source) w/in Gazebo.
+                A temporary approach to having to load the model immediately on ROS node start
+                ('situational_awareness_pkg' start). Increases modularity but is a longer runtime
+                because we are loading a model everytime an image comes from Gazebo camera. To
+                change this to a more modular approach, remove 'model' parameter, and uncomment
+                the 'TODO' commented section w/in this function.
 
         Return value(s)
         +--------------------+
@@ -38,15 +44,15 @@ def get_result(img):
     data = None
     # Initialize CvBridge class
     bridge = CvBridge()
-    # TODO: Import exported custom object detection model
-    args = [
-        '--model=../models/light_tracking_model/ssd-mobilenet.onnx',
-        '--labels=../models/light_tracking_model/labels.txt',
-        '--input-blob=input_0',
-        '--output-cvg=scores',
-        '--output-bbox=boxes'
-    ]
-    model = jetson.inference.detectNet(argv=args, threshold=0.5)
+    # TODO: Import exported custom object detection model directly from light tracking script
+    # args = [
+    #     '--model=/home/alex/krill_ws/src/situational_awareness_pkg/models/light_tracking_model/ssd-mobilenet.onnx',
+    #     '--labels=/home/alex/krill_ws/src/situational_awareness_pkg/models/light_tracking_model/labels.txt',
+    #     '--input-blob=input_0',
+    #     '--output-cvg=scores',
+    #     '--output-bbox=boxes'
+    # ]
+    # model = jetson.inference.detectNet(argv=args, threshold=0.5)
     # Do necessary preprocessing on 'img' parameter to feed into model
     try:
         # Convert ROS Image class to OpenCV2 image
@@ -56,27 +62,28 @@ def get_result(img):
     except CvBridgeError as e:
         print(e)
     # Copy above image
-    drawImg = cv2_img
+    # drawImg = cv2_img
     # Display the image
-    show_image(drawImg)
-    # TODO: Produce results by passing processed image into the model
-    # detections = model.detect(cuda_mem, img.width, img.height)
-    # TODO: Parse results from predictions/detections
-    # if (len(detections) > 0):
-        # data = {}
-        # detection = detections[0]
-        # data['class_id'] = detection.ClassID
-        # data['confidence'] = detection.Confidence
-        # data['predicted_class'] = model.GetClassDesc(class_id)
-        # data['left'] = detection.Left
-        # data['top'] = detection.Top
-        # data['right'] = detection.Right
-        # data['bottom'] = detection.Bottom
-        # data['width'] = detection.Width
-        # data['height'] = detection.Height
-        # data['area'] = detection.Area
-        # data['center_x'] = detection.Center[0]
-        # data['center_y'] = detection.Center[1]
+    # show_image(drawImg)
+    # Produce results by passing processed image into the model
+    detections = model.Detect(cuda_mem, img.width, img.height)
+    # Parse results from predictions/detections
+    if (len(detections) > 0):
+        data = {}
+        detection = detections[0]
+        data['class_id'] = detection.ClassID
+        data['confidence'] = detection.Confidence
+        data['predicted_class'] = model.GetClassDesc(data['class_id'])
+        data['left'] = detection.Left
+        data['top'] = detection.Top
+        data['right'] = detection.Right
+        data['bottom'] = detection.Bottom
+        data['width'] = detection.Width
+        data['height'] = detection.Height
+        data['area'] = detection.Area
+        data['center_x'] = detection.Center[0]
+        data['center_y'] = detection.Center[1]
+        print('"predicted_class": {0}'.format(data['predicted_class']))
     # TODO: Return results in a data structure of some sort for later 
     # processing by sender
     return data

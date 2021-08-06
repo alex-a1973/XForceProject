@@ -4,3 +4,4 @@ std_msgs/Header header
 int64 speed
 int64 heading
 string motor_control
+string maneuver_cmd

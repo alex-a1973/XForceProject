@@ -89,8 +89,8 @@ class ManeuverOperations:
         """
             Setup 'ManeuverOperations' to listen other module's/package's actual data info
         """
-        # TODO: Setup this node's subscribers in regards to actual data
-        #rospy.Subscriber('autonomy_bus_out', _, self._)
+        # Setup this node's subscribers in regards to actual data
+        rospy.Subscriber('autonomy_bus_out', AutonomyBusMsg, self._autonomy_bus_callback)
 
     def _listen_logger(self):
         """
@@ -109,8 +109,26 @@ class ManeuverOperations:
             data: 'AutonomyBus' message type which is a message type that holds conglomerated data from
                     all modules involved in UUV
         """
-        # TODO: Parse "data"
-        pass
+        # Check if there is an 'autonomy_bus' key within 'data' field
+        if ('autonomy_bus' in self.data):
+            # Check if data sent from 'autonomy_bus_pkg' is different from previously sent data
+            if (data.header.stamp != self.data['autonomy_bus'].header.stamp):
+                # Update 'data' dict's 'autonomy_bus' key with new 'AutonomyBusMsg'
+                self.data['autonomy_bus'] = data
+        else:
+            # Update 'data' dict's 'autonomy_bus' key with new 'AutonomyBusMsg'
+            self.data['autonomy_bus'] = data
+        # Parse "AutonomyBusMsg" for "SituationalAwarenessMsg".
+        self._parse_situational_awareness()
+
+    def _parse_situational_awareness(self):
+        # Grab 'SituationalAwarenessMsg' from 'AutonomyBusMsg'
+        situational_awareness_msg = self.data['situational_awareness'].situational_awareness
+        # Store the above 'SituationalAwarenessMsg' into the 'data' field
+        self.data['situational_awareness'] = situational_awareness_msg
+        # TODO: Parse 'SituationalAwarenessMsg' for 'Detection2D' message
+        # For debugging
+        # rospy.loginfo()
 
     def _autonomy_bus_logger_callback(self, data):
         """

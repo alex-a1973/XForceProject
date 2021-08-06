@@ -3,6 +3,7 @@
 import json
 import rospy
 import light_tracking
+import jetson.inference
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from vision_msgs.msg import Detection2D, ObjectHypothesisWithPose
@@ -52,6 +53,7 @@ class SituationalAwareness:
                 'support_ops': SupportOperationsMsg}', in this case 'SituationalAwareness' 
                 relies on data from 'support_ops_pkg'
         """
+        self._init_models()
         # Create a ROS node named, "situational_awareness"
         rospy.init_node('situational_awareness', anonymous=True)
         # Setup publisher of data
@@ -68,6 +70,23 @@ class SituationalAwareness:
         #self._listen_logger()
         # Start publishing parsed data from 'autonomy_bus'
         self._publish()
+
+    def _init_models(self):
+        """
+            Initializes AI/ML models used in 'situational_awareness_pkg' such as light tracking. This is less modular
+            as we are loading the models on start of ROS node but is faster than having 'light_tracking.py' have to
+            load a model everytime an image comes in (a Jetson has a hard time with this as well as other packages
+            running simultaneously)
+        """
+        # Import exported custom object detection model
+        args = [
+            '--model=/home/alex/krill_ws/src/situational_awareness_pkg/models/light_tracking_model/ssd-mobilenet.onnx',
+            '--labels=/home/alex/krill_ws/src/situational_awareness_pkg/models/light_tracking_model/labels.txt',
+            '--input-blob=input_0',
+            '--output-cvg=scores',
+            '--output-bbox=boxes'
+        ]
+        self.light_tracking_model = jetson.inference.detectNet(argv=args, threshold=0.5)
 
     def _publish(self):
         """
@@ -142,10 +161,8 @@ class SituationalAwareness:
 
         # Try grabbing 'mission_mgmt' (key) value from 'data'
         if ('mission_mgmt' in self.data):
-            print('"mission_mgmt" key exists')
             mission_mgmt_msg = self.data['mission_mgmt']
         else:
-            print('"mission_mgmt" key does not exist')
             return
 
         # Check if we need to execute a mission
@@ -153,7 +170,8 @@ class SituationalAwareness:
             # Check what mission to execute
             if (mission_mgmt_msg.mission == 'light tracking'):
                 # Get results from 'light_tracking' module
-                results = light_tracking.get_result(data)
+                results = light_tracking.get_result(data, self.light_tracking_model)
+                print('"results": {0}'.format(results))
                 # Parse results update/populate 'SituationalAwarenessMsg' for 'maneuver_ops'.
                 # 'maneuver_ops' will use the results to determine UUV movements
                 if (results != None):
@@ -168,7 +186,7 @@ class SituationalAwareness:
                     hyp = ObjectHypothesisWithPose()
                     hyp.id = results['class_id']
                     hyp.score = results['confidence']
-                    det_msg.results.push_back(hyp)
+                    det_msg.results.append(hyp)
                     # Store in our custom message
                     self._SITUATIONAL_AWARENESS_MSG.detection_msg = det_msg
 
@@ -181,11 +199,6 @@ class SituationalAwareness:
             before the 'mission_mgmt' node. Otherwise 'mission_mgmt' node should be publishing data to
             the 'autonomy_bus' node and then the 'situational_awareness' node is capturing 'mission_mgmt'
             data through the 'autonomy_bus'
-
-            Parameters
-            +--------------------+
-            data: 'AutonomyBus' message type which is a message type that holds conglomerated data from
-                    all modules involved in UUV including 'mission_mgmt_pkg' module
         """
         # Grab 'MissionManagementMsg' from 'AutonomyBusMsg'
         mission_mgmt_msg = self.data['autonomy_bus'].mission_mgmt
