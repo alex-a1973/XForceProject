@@ -229,6 +229,6 @@ DC_Motor.ino
 
 - This is the Arduino script written in C++ that intakes instructions via Serial port from ADetect_xy.py 
 - Based off of the instructions, DC_motor.ino will output voltages at different pins to turn on and off different circuit components
-- This script must be uploaded to the Arduino before running ADetection_xy.py
+- This script must be uploaded to the Arduino before running ADetection_xy.py 
 
 
