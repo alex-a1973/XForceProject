@@ -231,4 +231,8 @@ DC_Motor.ino
 - Based off of the instructions, DC_motor.ino will output voltages at different pins to turn on and off different circuit components
 - This script must be uploaded to the Arduino before running ADetection_xy.py 
 
+ArduinoCircuit.jpg
+
+- This is the circuit diagram that can be used to build the motor control circuit
+
 
