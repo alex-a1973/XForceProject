@@ -205,7 +205,7 @@ class SituationalAwareness:
         # Store the above 'MissionManagementMsg' into the 'data' field
         self.data['mission_mgmt'] = mission_mgmt_msg
         # For debugging
-        # rospy.loginfo('Mission: {0} || Execute? {1}'.format(mission_mgmt_msg.mission, mission_mgmt_msg.execute_mission))
+        rospy.loginfo('Mission: {0} || Execute? {1}'.format(mission_mgmt_msg.mission, mission_mgmt_msg.execute_mission))
 
     def _autonomy_bus_logger_callback(self, data):
         """
