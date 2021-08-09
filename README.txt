@@ -150,14 +150,17 @@ Krill UUV ROS Packages
             |       |__ situational_awareness.launch --> File launches the 'situational_awareness.py' file which initializes a ROS node
             |    
             |__ models/ --> Where custom models reside for 'situational_awareness_pkg'
-            |       |__  --> This model is trained on a specific object to track within Gazebo
+            |       |__ light_tracking_model/ --> Model folder for the light tracking detection model
+            |               |__ ssd-mobilenet.onnx --> Exported custom light tracking detection model
+            |               |__ ssd-mobilenet.onnx.1.1.7103.GPU.FP16.engine --> Exported custom light tracking detection model after initial load
+            |               |__ labels.txt --> Text file specifying the labels the custom model was train with
             |
             |__ msg/ --> Where custom message types reside for 'situational_awareness_pkg'
             |       |__ SituationalAwareness.msg --> This message is comprised of the data that this package should broadcast
             |
             |__ scripts/ --> Where Python scripts reside
             |       |__ situational_awareness.py --> This file creates a ROS node which simulates situational awareness
-            |       |__ light_trackin.py --> This file uses custom exported model to track an object in Gazebo
+            |       |__ light_tracking.py --> This file uses custom exported model to track an object in Gazebo
             |
             |__ src/ --> Folder which contains source code
             |
@@ -187,19 +190,20 @@ Krill UUV ROS Packages
             - Create a folder (this will be your '<ros_workspace_folder>') with a 'src/' folder within it
             - 'cd' into the newly created folder
             - Call 'catkin_make' then you've just created a ROS workspace
-        2. 'git clone' repository in your 'src/' folder after you've created your ROS workspace
-            - A 'src/' folder should be created after you 'catkin_make'
-            - 'cd <ros_workspace_folder>/src/'
-            - 'git clone https://github.com/alex-a1973/UUVLightTrackingSrc.git'
-        3. Now you have '~/<ros_workspace_folder>/src/UUVLightTrackingSrc/' which contains all the custom packages.
-        4. You MUST make sure in '~/<ros_workspace_folder>/src/UUVLightTrackingSrc/autonomy_bus_pkg/CMakeLists.txt', under
-                'generate_messages' all but 'std_msgs' and 'sensor_msgs' are commented out (i.e., all custom packages)
-        5. You MUST make sure in '~/<ros_workspace_folder>/src/UUVLightTrackingSrc/autonomy_bus_pkg/msg/AutonomyBus.msg' all
-                custom packages are commented out
-        6. Once the appropriate stuff is commented out, 'cd ~/<ros_workspace_folder>' and 'catkin_make' (compile ROS workspace)
-        7. After successful compilation, uncomment all the commented out sections from steps 4 and 5
+        2. 'git clone' the 'simulation' branch of the repository in your 'src/' folder after you've created your ROS workspace
+            - 'cd ./<ros_workspace_folder>/src/'
+            - 'git clone --single-branch --branch simulation https://github.com/alex-a1973/XForceProject.git'
+        3. Now you have './<ros_workspace_folder>/src/XForceProject/' which contains all the custom packages.
+        4. You MUST make sure in './<ros_workspace_folder>/src/XForceProject/autonomy_bus_pkg/CMakeLists.txt', under
+                'generate_messages' all but 'std_msgs', 'sensor_msgs', and other pre-built ROS messages are commented 
+                out (i.e., all custom packages such as 'communication_ops_pkg' and 'engineering_ops_pkg')
+        5. You MUST make sure in './<ros_workspace_folder>/src/XForceProject/autonomy_bus_pkg/msg/AutonomyBus.msg' all
+                custom packages are commented out (such as 'communication_ops_pkg' and 'engineering_ops_pkg')
+        6. Once the appropriate stuff is commented out, 'cd ./<ros_workspace_folder>' and 'catkin_make' (compile ROS workspace)
+        7. After successful compilation, uncomment all the commented out sections from steps 4 and 5, save, and compile again with
+                'catkin_make' within './<ros_workspace_folder>/' folder
         8. Open terminals (or terminal tabs) equal to the number of packages w/in this workspace (10)
-        9. 'cd ~/krill_ws', Change directory into the 'krill_ws/' folder for all terminals
+        9. 'cd ./<ros_workspace_folder>', Change directory into the '<ros_workspace_folder>/' folder for all terminals
         10. 'source devel/setup.bash', Source the project for all terminals
         11. There should be a 'launch/' folder in every single one of these packages. You'll need to run each '.launch' file
                 in each package in a separate terminal (hence the reason opening 10 terminals)
@@ -210,29 +214,27 @@ Krill UUV ROS Packages
 
 ||=======================================================================================================||
 
-Hardware Branch
----------------
+'hardware' Branch
++----------------------------------------------------------+
 
-Serial
+    serial/
+    +----------------------------------------------------------+
+    - This folder contains the necessary contents for establishing a serial connection between the Jetson and Arduino
+    - Must be kept in the same directory as ADetection_xy.py
 
-- This folder contains the necessary contents for establishing a serial connection between the Jetson and Arduino
-- Must be kept in the same directory as ADetection_xy.py
+    ADetection_xy.py
+    +----------------------------------------------------------+
+    - This is the python script that runs DetectNet on the Jetson for Object Detection and tracking
+    - To run, you must set up DetectNet on your Jetson from source using the tutorial here: https://github.com/dusty-nv/jetson-inference/blob/master/docs/building-repo-2.md
+    - The code intakes Object Detection information and outputs instructions to the serial port, which are read by DC_Motor.ino
+    - The tutorial for training your own model from custom image data to be run in the program can be found here:
 
-ADetection_xy.py
+    DC_Motor.ino
+    +----------------------------------------------------------+
+    - This is the Arduino script written in C++ that intakes instructions via Serial port from ADetect_xy.py 
+    - Based off of the instructions, DC_motor.ino will output voltages at different pins to turn on and off different circuit components
+    - This script must be uploaded to the Arduino before running ADetection_xy.py 
 
-- This is the python script that runs DetectNet on the Jetson for Object Detection and tracking
-- To run, you must set up DetectNet on your Jetson from source using the tutorial here: https://github.com/dusty-nv/jetson-inference/blob/master/docs/building-repo-2.md
-- The code intakes Object Detection information and outputs instructions to the serial port, which are read by DC_Motor.ino
-- The tutorial for training your own model from custom image data to be run in the program can be found here:
-
-DC_Motor.ino
-
-- This is the Arduino script written in C++ that intakes instructions via Serial port from ADetect_xy.py 
-- Based off of the instructions, DC_motor.ino will output voltages at different pins to turn on and off different circuit components
-- This script must be uploaded to the Arduino before running ADetection_xy.py 
-
-ArduinoCircuit.jpg
-
-- This is the circuit diagram that can be used to build the motor control circuit
-
-
+    ArduinoCircuit.jpg
+    +----------------------------------------------------------+
+    - This is the circuit diagram that can be used to build the motor control circuit
