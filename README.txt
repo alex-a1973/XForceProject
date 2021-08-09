@@ -218,4 +218,10 @@ Serial
 - This folder contains the necessary contents for establishing a serial connection between the Jetson and Arduino
 - Must be kept in the same directory as ADetection_xy.py
 
+ADetection_xy.py
+
+- This is the python script that runs DetectNet on the Jetson for Object Detection and tracking
+- To run, you must set up DetectNet on your Jetson from source using the tutorial here: https://github.com/dusty-nv/jetson-inference/blob/master/docs/building-repo-2.md
+- The code intakes Object Detection information and outputs instructions to the serial port, which are read by 
+
 
