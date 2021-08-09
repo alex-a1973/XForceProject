@@ -216,3 +216,25 @@ Krill UUV ROS Packages
 
 'hardware' Branch
 +----------------------------------------------------------+
+
+    serial/
+    +----------------------------------------------------------+
+    - This folder contains the necessary contents for establishing a serial connection between the Jetson and Arduino
+    - Must be kept in the same directory as ADetection_xy.py
+
+    ADetection_xy.py
+    +----------------------------------------------------------+
+    - This is the python script that runs DetectNet on the Jetson for Object Detection and tracking
+    - To run, you must set up DetectNet on your Jetson from source using the tutorial here: https://github.com/dusty-nv/jetson-inference/blob/master/docs/building-repo-2.md
+    - The code intakes Object Detection information and outputs instructions to the serial port, which are read by DC_Motor.ino
+    - The tutorial for training your own model from custom image data to be run in the program can be found here:
+
+    DC_Motor.ino
+    +----------------------------------------------------------+
+    - This is the Arduino script written in C++ that intakes instructions via Serial port from ADetect_xy.py 
+    - Based off of the instructions, DC_motor.ino will output voltages at different pins to turn on and off different circuit components
+    - This script must be uploaded to the Arduino before running ADetection_xy.py 
+
+    ArduinoCircuit.jpg
+    +----------------------------------------------------------+
+    - This is the circuit diagram that can be used to build the motor control circuit
