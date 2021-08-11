@@ -227,7 +227,10 @@ Krill UUV ROS Packages
     - This is the python script that runs DetectNet on the Jetson for Object Detection and tracking
     - To run, you must set up DetectNet on your Jetson from source using the tutorial here: https://github.com/dusty-nv/jetson-inference/blob/master/docs/building-repo-2.md
     - The code intakes Object Detection information and outputs instructions to the serial port, which are read by DC_Motor.ino
-    - The tutorial for training your own model from custom image data to be run in the program can be found here:
+    
+    Training Custom DetectNet Model.pdf
+    +----------------------------------------------------------+
+    - This is a tutorial on how to train your own DetectNet model to be used in ADetection_xy.py
 
     DC_Motor.ino
     +----------------------------------------------------------+
